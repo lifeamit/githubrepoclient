@@ -15,6 +15,7 @@
 @interface RepoResultsViewController ()
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) GithubRepoSearchSettings *searchSettings;
+@property (nonatomic, strong) NSArray *response;
 @end
 
 @implementation RepoResultsViewController
@@ -35,6 +36,7 @@
 - (void)doSearch {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [GithubRepo fetchRepos:self.searchSettings successCallback:^(NSArray *repos) {
+        self.response = repos;
         for (GithubRepo *repo in repos) {
             NSLog(@"%@", [NSString stringWithFormat:
                    @"Name:%@\n\tDescription:%@\n\tStars:%ld\n\tForks:%ld,Owner:%@\n\tAvatar:%@\n\t",
@@ -46,13 +48,14 @@
                           repo.ownerAvatarURL
                    ]);
         }
+        [self.tableView reloadData];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 2;
+    return [self.response count];
 }
 
 
@@ -60,7 +63,11 @@
     
     RepoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepoCell"];
     
-    cell.textLabel.text = @"hi";
+    GithubRepo *repoData = self.response[indexPath.row];
+    
+    [cell setRepoData:repoData];
+    
+//    cell.textLabel.text = @"hi";
     return cell;
 }
 
