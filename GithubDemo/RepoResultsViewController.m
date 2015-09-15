@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "GithubRepo.h"
 #import "GithubRepoSearchSettings.h"
+#import "RepoCell.h"
 
 @interface RepoResultsViewController ()
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -25,6 +26,9 @@
     self.searchBar.delegate = self;
     [self.searchBar sizeToFit];
     self.navigationItem.titleView = self.searchBar;
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     [self doSearch];
 }
 
@@ -45,6 +49,21 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return 2;
+}
+
+
+-(RepoCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    RepoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RepoCell"];
+    
+    cell.textLabel.text = @"hi";
+    return cell;
+}
+
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [self.searchBar setShowsCancelButton:YES animated:YES];

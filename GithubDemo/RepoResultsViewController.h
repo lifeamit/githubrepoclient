@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RepoResultsViewController : UIViewController <UISearchBarDelegate>
+@interface RepoResultsViewController : UIViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
