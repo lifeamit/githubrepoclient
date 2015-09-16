@@ -30,6 +30,8 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    
+ 
     [self doSearch];
 }
 
@@ -49,6 +51,8 @@
                    ]);
         }
         [self.tableView reloadData];
+//        self.tableView.estimatedRowHeight = 100;
+//        self.tableView.rowHeight = UITableViewAutomaticDimension;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
